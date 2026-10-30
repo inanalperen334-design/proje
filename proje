@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="./style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pen</title>
+  </head>
+  <body>
+
+    <script src="./script.js"></script>
+  </body>
+</html><!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Terminal Yazısı</title>
+<style>
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: black;
+}
+
+body {
+  font-family: Consolas, "Courier New", monospace;
+  animation: ekran-titreme 4s infinite;
+}
+
+@keyframes ekran-titreme {
+  0%, 96%, 100% { filter: none; }
+  97% { filter: brightness(1.8); }
+  98% { filter: brightness(0.55); }
+  99% { filter: brightness(1.25); }
+}
+
+#terminal {
+  box-sizing: border-box;
+  height: 100vh;
+  padding: 7vh 5vw;
+  overflow: hidden;
+  color: #7cff7c;
+  font-size: clamp(16px, 3.2vw, 34px);
+  line-height: 1.55;
+  text-shadow: 0 0 8px rgba(124, 255, 124, 0.45);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.imlec {
+  display: inline-block;
+  width: 0.65em;
+  height: 1em;
+  margin-left: 2px;
+  vertical-align: -0.12em;
+  background: #7cff7c;
+  animation: yanip-soner 0.65s steps(1) infinite;
+}
+
+@keyframes yanip-soner {
+  50% { opacity: 0; }
+}
+
+@media (max-width: 600px) {
+  #terminal {
+    padding: 4vh 4vw;
+    line-height: 1.45;
+  }
+}
+</style>
+</head>
+<body>
+<div id="terminal"></div>
+
+<script>
+const terminal = document.getElementById("terminal");
+const satirlar = [
+  "> dir /s",
+  "oçuz abi.py",
+  "> python oçuz abi.py",
+  "Dosya taraniyor...",
+  "/data/data/...",
+  "/data/user/0/...",
+  "/data/media/0/Download/...",
+  "[OK] System files detected",
+  "[OK] Verbindung hergestellt",
+  "[OK] Подключение установлено",
+  "[OK] Datenstrom gestartet",
+  "[WARNING] unauthorisierter Zugriff erkannt",
+  "[WARNUNG] Systemuberwachung aktiv",
+  "[ПРЕДУПРЕЖДЕНИЕ] система наблюдения активна",
+  "[WARNUNG] Kamera wird geprüft",
+  "[ПРЕДУПРЕЖДЕНИЕ] микрофон проверяется",
+  "[WARNUNG] IP-Adresse wurde ermittelt",
+  "[WARNING] IP address detected",
+  "192.168.001.025",
+  "[!] Löschen der Daten gestartet",
+  "[!] Удаление данных запущено",
+  "[!] Datei: oçuz abi.py",
+  "[!] Datei wird verschlüsselt...",
+  "[!] Файл шифруется...",
+  "[!] Encrypting file...",
+  "[!] Verschlüsselung abgeschlossen: %100",
+  "[FEHLER] система заблокирована",
+  "[ERROR] system locked",
+  "[FEHLER] выход деактивiert",
+  "> access request pending_",
+];
+
+let satir = 0;
+let karakter = 0;
+let metin = "";
+
+function yaz() {
+  if (satir >= satirlar.length) {
+    setTimeout(() => {
+      metin = "";
+      satir = 0;
+      karakter = 0;
+      yaz();
+    }, 5000);
+    return;
+  }
+
+  if (karakter < satirlar[satir].length) {
+    metin += satirlar[satir][karakter++];
+  } else {
+    metin += "\n";
+    satir++;
+    karakter = 0;
+  }
+
+  terminal.textContent = metin;
+  terminal.innerHTML += '<span class="imlec"></span>';
+
+  const yeniSatir = satirlar[satir - 1]?.startsWith(">");
+  const satirBitti = karakter === satirlar[satir - 1]?.length;
+  const bekleme = satirBitti ? (yeniSatir ? 900 : 500) : 0;
+  setTimeout(yaz, bekleme || (yeniSatir && satir < satirlar.length ? 180 : Math.random() * 55 + 18));
+}
+
+setInterval(() => {
+  terminal.scrollTop = terminal.scrollHeight;
+}, 100);
+
+yaz();
+</script>
+</body>
+</html>
+
